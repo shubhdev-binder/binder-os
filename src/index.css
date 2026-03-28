@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 44 24% 92%;
+    --foreground: 0 0% 10%;
+
+    --card: 44 25% 90%;
+    --card-foreground: 0 0% 10%;
+
+    --popover: 44 24% 92%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 192 65% 18%;
+    --primary-foreground: 44 24% 92%;
+
+    --secondary: 44 20% 88%;
+    --secondary-foreground: 0 0% 10%;
+
+    --muted: 44 15% 86%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 24 82% 54%;
+    --accent-foreground: 44 24% 92%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 40 15% 84%;
+    --input: 40 15% 84%;
+    --ring: 192 65% 18%;
+
+    --radius: 0.5rem;
+
+    /* Custom tokens */
+    --copper: 24 82% 54%;
+    --copper-light: 24 65% 62%;
+    --copper-glow: 24 85% 58%;
+    --teal-light: 192 45% 35%;
+    --teal-deep: 192 70% 12%;
+    --warm-bg: 44 24% 92%;
+    --warm-bg-alt: 44 25% 90%;
+    --section-dark: 192 65% 10%;
+    --section-dark-foreground: 40 20% 90%;
+  }
+
+  .dark {
+    --background: 192 65% 6%;
+    --foreground: 40 20% 90%;
+    --card: 192 50% 10%;
+    --card-foreground: 40 20% 90%;
+    --primary: 24 82% 54%;
+    --primary-foreground: 44 24% 92%;
+    --secondary: 192 40% 15%;
+    --secondary-foreground: 40 20% 90%;
+    --muted: 192 30% 15%;
+    --muted-foreground: 40 10% 60%;
+    --accent: 24 82% 54%;
+    --accent-foreground: 44 24% 92%;
+    --border: 192 30% 20%;
+    --input: 192 30% 20%;
+    --ring: 24 82% 54%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .text-gradient-copper {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--copper)) 0%, hsl(var(--copper-glow)) 100%);
+  }
+
+  .bg-section-dark {
+    background-color: hsl(var(--section-dark));
+    color: hsl(var(--section-dark-foreground));
+  }
+
+  .bg-warm-alt {
+    background-color: hsl(var(--warm-bg-alt));
+  }
+
+  /* Subtle textile weave pattern - ultra light */
+  .weave-pattern {
+    background-image:
+      linear-gradient(90deg, hsl(var(--border) / 0.15) 1px, transparent 1px),
+      linear-gradient(180deg, hsl(var(--border) / 0.15) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .weave-pattern-dark {
+    background-image:
+      linear-gradient(90deg, hsl(192 50% 20% / 0.15) 1px, transparent 1px),
+      linear-gradient(180deg, hsl(192 50% 20% / 0.15) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .thread-line {
+    background: linear-gradient(180deg, hsl(var(--copper) / 0.3), hsl(var(--copper) / 0));
+  }
+
+  /* Glassmorphism navbar */
+  .glass-nav {
+    background: hsl(var(--background) / 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .glass-nav-scrolled {
+    background: hsl(var(--background) / 0.85);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+  }
+
+  /* Shimmer effect for coming soon */
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .shimmer-border {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--border)) 0%,
+      hsl(var(--accent) / 0.4) 50%,
+      hsl(var(--border)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  /* Network pulse */
+  @keyframes network-pulse {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.4; }
+  }
+
+  @keyframes logo-pulse {
+    0%, 100% {
+      filter:
+        drop-shadow(0 0 6px hsl(var(--accent) / 0.35))
+        drop-shadow(0 0 20px hsl(var(--accent) / 0.12));
+    }
+    50% {
+      filter:
+        drop-shadow(0 0 16px hsl(var(--accent) / 0.7))
+        drop-shadow(0 0 40px hsl(var(--accent) / 0.3))
+        drop-shadow(0 0 70px hsl(var(--accent) / 0.12));
+    }
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
