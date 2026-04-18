@@ -89,6 +89,41 @@ function diamond(r: number) {
   const edges: [number,number][] = [[0,2],[0,3],[0,4],[0,5],[1,2],[1,3],[1,4],[1,5],[2,3],[3,5],[5,4],[4,2]];
   return { verts, edges };
 }
+function dodecahedron(r: number) {
+  const phi = (1 + Math.sqrt(5)) / 2;
+  const inv = 1 / phi;
+  const norm = r / Math.sqrt(3);
+  const raw: Vec3[] = [
+    [-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],
+    [-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1],
+    [0,-inv,-phi],[0,inv,-phi],[0,-inv,phi],[0,inv,phi],
+    [-inv,-phi,0],[inv,-phi,0],[inv,phi,0],[-inv,phi,0],
+    [-phi,0,-inv],[phi,0,-inv],[phi,0,inv],[-phi,0,inv],
+  ];
+  const verts: Vec3[] = raw.map(v => [v[0] * norm, v[1] * norm, v[2] * norm]);
+  const pentagons: number[][] = [
+    [0,8,9,3,16],[0,16,19,4,12],[0,12,13,1,8],
+    [1,13,5,18,17],[1,17,2,9,8],[2,17,18,6,14],
+    [2,14,15,3,9],[3,15,7,19,16],[4,19,7,11,10],
+    [4,10,5,13,12],[5,10,11,6,18],[6,11,7,15,14],
+  ];
+  const faces: [number,number,number][] = [];
+  pentagons.forEach(p => {
+    for (let k = 1; k < p.length - 1; k++) faces.push([p[0], p[k], p[k+1]]);
+  });
+  const edgeSet = new Set<string>();
+  pentagons.forEach(p => {
+    for (let k = 0; k < p.length; k++) {
+      const a = p[k], b = p[(k + 1) % p.length];
+      edgeSet.add(a < b ? `${a}-${b}` : `${b}-${a}`);
+    }
+  });
+  const edges: [number,number][] = [...edgeSet].map(k => {
+    const [a, b] = k.split("-").map(Number);
+    return [a, b];
+  });
+  return { verts, edges, faces };
+}
 
 // ── 2D neural web node ──
 interface GNode {
@@ -166,6 +201,7 @@ const BindingHeroCanvas = ({ className = "" }: { className?: string }) => {
     canvas.addEventListener("mousemove", onMouseMove);
     canvas.addEventListener("mouseleave", onMouseLeave);
 
+    const dod = dodecahedron(1);
     const ico = icosahedron(1);
     const octa = octahedron(1);
     const cub = cube(1);
@@ -293,7 +329,29 @@ const BindingHeroCanvas = ({ className = "" }: { className?: string }) => {
         }
       };
 
-      // Draw translucent icosahedron faces first
+      // Draw translucent dodecahedron faces first (outer shell)
+      const dodSize = polySize * 1.25;
+      const dodFacePts = dod.verts.map(v => {
+        let p: Vec3 = [v[0] * dodSize, v[1] * dodSize, v[2] * dodSize];
+        p = rotateX(p, t * 0.08); p = rotateY(p, t * -0.1); p = rotateZ(p, t * 0.18);
+        return project3D(p, cx, cy, fov);
+      });
+      const sortedDodFaces = [...dod.faces].sort((a, b) => {
+        const zA = (dodFacePts[a[0]].z + dodFacePts[a[1]].z + dodFacePts[a[2]].z) / 3;
+        const zB = (dodFacePts[b[0]].z + dodFacePts[b[1]].z + dodFacePts[b[2]].z) / 3;
+        return zA - zB;
+      });
+      for (const [i, j, k] of sortedDodFaces) {
+        const a = dodFacePts[i], b = dodFacePts[j], c = dodFacePts[k];
+        const avgZ = (a.z + b.z + c.z) / 3;
+        const faceAlpha = 0.02 + 0.03 * ((avgZ + dodSize) / (dodSize * 2));
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.lineTo(c.x, c.y); ctx.closePath();
+        ctx.fillStyle = `rgba(${GOLD.r}, ${GOLD.g}, ${GOLD.b}, ${faceAlpha})`;
+        ctx.fill();
+      }
+
+      // Draw translucent icosahedron faces
       const icoFacePts = ico.verts.map(v => {
         let p: Vec3 = [v[0] * polySize, v[1] * polySize, v[2] * polySize];
         p = rotateX(p, t * 0.1); p = rotateY(p, t * 0.15); p = rotateZ(p, t * 0.04);
@@ -315,8 +373,10 @@ const BindingHeroCanvas = ({ className = "" }: { className?: string }) => {
         ctx.fill();
       }
 
+      // Layer 0: Dodecahedron — outermost shell
+      drawPoly(dod.verts, dod.edges, dodSize, t * 0.08, t * -0.1, t * 0.18, GOLD, isMob ? 0.7 : 1.0, 0.4);
       // Layer 1: Icosahedron — outer shell
-      drawPoly(ico.verts, ico.edges, polySize, t * 0.1, t * 0.15, t * 0.04, GOLD, isMob ? 0.8 : 1.2, 0.45);
+      drawPoly(ico.verts, ico.edges, polySize, t * 0.1, t * 0.15, t * 0.04, AMBER, isMob ? 0.8 : 1.2, 0.5);
       // Layer 2: Octahedron — mid
       drawPoly(octa.verts, octa.edges, polySize * 0.52, t * -0.18, t * 0.12, t * 0.08, COPPER, isMob ? 1.0 : 1.5, 0.6);
       // Layer 3: Cube — inner
