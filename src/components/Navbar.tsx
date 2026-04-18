@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import DemoRequestForm from "./DemoRequestForm";
 
 const navItems = [
   { label: "Inventory", href: "#inventory" },
@@ -12,6 +20,7 @@ const navItems = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [demoModalOpen, setDemoModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -49,14 +58,14 @@ const Navbar = () => {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full origin-left" />
               </a>
             ))}
-            <motion.a
-              href="#cta"
+            <motion.button
+              onClick={() => setDemoModalOpen(true)}
               className="inline-flex items-center justify-center rounded-lg bg-accent px-6 py-2.5 text-sm font-semibold text-accent-foreground shadow-sm shadow-accent/15 hover:shadow-md hover:shadow-accent/20 transition-shadow"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
             >
               Request a Demo
-            </motion.a>
+            </motion.button>
           </div>
 
           {/* Mobile toggle */}
@@ -90,16 +99,31 @@ const Navbar = () => {
                 {item.label}
               </a>
             ))}
-            <a
-              href="#cta"
-              onClick={() => setOpen(false)}
-              className="block w-full text-center rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground"
+            <button
+              onClick={() => {
+                setDemoModalOpen(true);
+                setOpen(false);
+              }}
+              className="block w-full text-center rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground hover:bg-accent/90 transition-colors"
             >
               Request a Demo
-            </a>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Demo Modal */}
+      <Dialog open={demoModalOpen} onOpenChange={setDemoModalOpen}>
+        <DialogContent>
+          <DialogHeader className="mb-2">
+            <DialogTitle className="text-2xl sm:text-3xl font-bold">Request Your Demo</DialogTitle>
+            <DialogDescription className="text-sm sm:text-base">
+              Fill out the form below and we'll get in touch to schedule your personalized walkthrough.
+            </DialogDescription>
+          </DialogHeader>
+          <DemoRequestForm onSuccess={() => setDemoModalOpen(false)} />
+        </DialogContent>
+      </Dialog>
     </motion.nav>
   );
 };

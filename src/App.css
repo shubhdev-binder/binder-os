@@ -40,3 +40,14 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Time input styling for white icon */
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(1);
+  cursor: pointer;
+}
+
+input[type="time"]::-webkit-outer-spin-button,
+input[type="time"]::-webkit-inner-spin-button {
+  display: none;
+}
