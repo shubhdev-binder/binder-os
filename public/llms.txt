@@ -1,0 +1,82 @@
+# Binder OS
+
+> Binder OS is the Textile Manufacturing Operating System — "your company's
+> nervous system." One system of record for complete traceability of operations,
+> from raw material to finished goods, built for India's textile ecosystem.
+> A product of Binder 33 Labs (https://binder33labs.com).
+
+Binder OS (https://binder-os.binder33labs.com) replaces the chaos of spreadsheets, WhatsApp
+groups, and disconnected registers with a single manufacturing operating system.
+It starts where every company starts — with inventory.
+
+## It all starts with inventory
+
+The foundation is a complete Inventory Management System. It is not a standalone
+module bolted on later: production planning reads from it, job orders dispatch
+against it, challans reference it, and traceability traces back to it.
+
+- Real-time stock visibility — raw materials, WIP, and finished goods across
+  every location and department.
+- Unit-level traceability — every unit gets a unique identification number (UIN)
+  that follows it from intake to dispatch, even across company boundaries.
+- Inward & outward registers — digital replacements for the paper registers,
+  linked to challans, purchase orders, and job orders automatically.
+- Multi-unit, multi-location — departments, warehouses, and branch units in one
+  view.
+
+## From inventory to full operations
+
+- Job Order Management — create, dispatch, and track job orders to external job
+  workers; every unit carries its UIN reference, and inventory automatically
+  adjusts on dispatch and receipt.
+- Delivery Challans & Documentation — challans linked to actual inventory
+  records, not typed from memory, with full traceability back to the source
+  material.
+- Quality & Compliance — quality reports attached to specific units and batches:
+  GSM, EPI, PPI, AQL results, and defect records for any piece of inventory.
+- Operational Intelligence — every challan, job order, and quality check feeds a
+  growing body of operational data unique to the company.
+
+## The COO Agent
+
+"Your AI Operations Manager — Always On." An AI assistant that lives across the
+entire Binder OS — inventory, job orders, production, quality — and works inside
+the team's existing Telegram groups. No new app, no login portal. It answers
+natural-language questions ("What's the current stock of 200 GSM polyester?"),
+sends proactive alerts (low stock, overdue job orders, quality threshold
+breaches), relays messages and follows up with team members, and automatically
+expands its scope as more departments come onboard.
+
+## Who it is for
+
+Built for the textile ecosystem: vertically integrated companies (end-to-end
+operations under one system), exporters and manufacturers (the traceability
+international buyers demand — every unit documented from raw material to
+container), and job workers (their own system: track incoming orders, manage
+inventory and production, build a verifiable work history).
+
+## Roadmap
+
+- Production Layer — full production process management: define sequences, track
+  work-in-progress across departments and machines, connect every step back to
+  inventory and job orders. The COO Agent will extend into production monitoring
+  automatically.
+- Binder Lite — a standalone product for job workers, independently useful from
+  day one, with no dependency on a parent company's onboarding.
+
+## Getting started
+
+There is no public pricing; the conversion path is a demo / early access.
+Binder OS is currently onboarding textile manufacturers in the Panipat
+ecosystem, expanding soon. Onboarding is a 4-step setup measured in minutes, not
+months — no consultants needed. Request a demo or early access at
+https://binder-os.binder33labs.com/.
+
+## Facts
+
+- Product of: Binder 33 Labs Private Limited, Panipat, Haryana 132107, India
+- Company site: https://binder33labs.com (agent brief: https://binder33labs.com/llms.txt)
+- Contact: info@binder33labs.com
+- X / Twitter: @binder33labs
+- Sister product: Creative Wizard — the AI design studio for home textiles
+  (https://creative-wizards.com)
